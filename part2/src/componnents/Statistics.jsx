@@ -5,6 +5,13 @@ const Statistics = ({votes}) => {
   const getAverange = () => ((votes.good*1) + (votes.neutral*0) + (votes.bad*-1)) / getAll()
   const getPositive = () => votes.good*100/getAll()
 
+if(getAll()==0){
+    return(
+        <h1>No feedback given</h1>
+    )
+  }
+  
+
   return (
     <div>
       <p>good {votes.good}</p>
