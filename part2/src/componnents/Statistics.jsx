@@ -1,15 +1,15 @@
 import React from 'react'
 
-const Statistics = ({good, neutral, bad}) => {
-    const getAll = () => good + neutral + bad
-  const getAverange = () => ((good*1) + (neutral*0) + (bad*-1)) / getAll()
-  const getPositive = () => good*100/getAll()
+const Statistics = ({votes}) => { 
+  const getAll = () => votes.good + votes.neutral + votes.bad
+  const getAverange = () => ((votes.good*1) + (votes.neutral*0) + (votes.bad*-1)) / getAll()
+  const getPositive = () => votes.good*100/getAll()
 
   return (
     <div>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
+      <p>good {votes.good}</p>
+      <p>neutral {votes.neutral}</p>
+      <p>bad {votes.bad}</p>
       <p>All {getAll()}</p>
       <p>Averange {getAverange()}</p>
       <p>positive {getPositive()}%</p>
