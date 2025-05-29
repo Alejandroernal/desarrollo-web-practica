@@ -10,16 +10,35 @@ if(getAll()==0){
         <h1>No feedback given</h1>
     )
   }
+
+  const Statistics2 = ({votes}) => {
+
+  return(
+    <div>
+      <StatisticLine text="good" value ={votes.good} />
+      <StatisticLine text="neutral" value ={votes.neutral} />
+      <StatisticLine text="bad" value ={votes.bad} />
+    </div>
+  )
+}
+
+const StatisticLine = ({ text, value }) => (
+  <p>{text} {value}</p>
+)
   
 
   return (
     <div>
-      <p>good {votes.good}</p>
-      <p>neutral {votes.neutral}</p>
-      <p>bad {votes.bad}</p>
-      <p>All {getAll()}</p>
-      <p>Averange {getAverange()}</p>
-      <p>positive {getPositive()}%</p>
+      {/*
+      <StatisticLine text="good" value ={votes.good} />
+      <StatisticLine text="neutral" value ={votes.neutral} />
+      <StatisticLine text="bad" value ={votes.bad} />
+      */}
+      <Statistics2 votes={votes} />
+      <StatisticLine text="All" value ={getAll()} />
+      <StatisticLine text="Averange" value ={getAverange()} />
+      <StatisticLine text="positive" value ={getPositive()} />
+      
     </div>
   )
 }

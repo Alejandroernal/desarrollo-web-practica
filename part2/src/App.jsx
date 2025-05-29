@@ -9,15 +9,26 @@ const [votes, setVotes]= useState({
   neutral:0
 })
 
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>{text}</button>
+)
+
 
 
   return (
     <div>
       <h1>give feedback</h1>
+
+
+      {/*
       <button onClick={() => setVotes({... votes, good: votes.good + 1})}>good</button>
       <button onClick={() => setVotes({... votes, neutral: votes.neutral + 1})}>neutral</button>
-      <button onClick={() => setVotes({... votes, bad:votes.bad + 1})}>bad</button>
-      
+      <button onClick={() => setVotes({... votes, bad:votes.bad + 1})}>bad</button>*/}
+
+      <Button handleClick={() => setVotes({... votes, good: votes.good + 1})} text="good"></Button>
+
+      <Button handleClick={()=> setVotes({... votes, neutral: votes.neutral + 1})} text="neutral"></Button>
+      <Button handleClick={()=> setVotes({... votes, bad: votes.bad + 1})} text="bad"></Button>
 
 
 
