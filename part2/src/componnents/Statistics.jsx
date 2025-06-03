@@ -23,7 +23,11 @@ if(getAll()==0){
 }
 
 const StatisticLine = ({ text, value }) => (
-  <p>{text} {value}</p>
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+    </tr>
+  
 )
   
 
@@ -34,11 +38,14 @@ const StatisticLine = ({ text, value }) => (
       <StatisticLine text="neutral" value ={votes.neutral} />
       <StatisticLine text="bad" value ={votes.bad} />
       */}
+      <table>
+       <tbody>
       <Statistics2 votes={votes} />
       <StatisticLine text="All" value ={getAll()} />
       <StatisticLine text="Averange" value ={getAverange()} />
       <StatisticLine text="positive" value ={getPositive()} />
-      
+       </tbody>
+      </table>
     </div>
   )
 }
