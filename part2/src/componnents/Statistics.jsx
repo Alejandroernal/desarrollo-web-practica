@@ -14,11 +14,16 @@ if(getAll()==0){
   const Statistics2 = ({votes}) => {
 
   return(
-    <div>
-      <StatisticLine text="good" value ={votes.good} />
-      <StatisticLine text="neutral" value ={votes.neutral} />
-      <StatisticLine text="bad" value ={votes.bad} />
-    </div>
+    <table>
+      <tbody>
+        <StatisticLine text="good" value={votes.good} />
+        <StatisticLine text="neutral" value={votes.neutral} />
+        <StatisticLine text="bad" value={votes.bad} />
+        <StatisticLine text="All" value ={getAll()} />
+        <StatisticLine text="Averange" value ={getAverange()} />
+        <StatisticLine text="positive" value ={getPositive()} />
+      </tbody>
+    </table>
   )
 }
 
@@ -38,14 +43,18 @@ const StatisticLine = ({ text, value }) => (
       <StatisticLine text="neutral" value ={votes.neutral} />
       <StatisticLine text="bad" value ={votes.bad} />
       */}
+      
       <table>
        <tbody>
       <Statistics2 votes={votes} />
+ {/*
       <StatisticLine text="All" value ={getAll()} />
       <StatisticLine text="Averange" value ={getAverange()} />
       <StatisticLine text="positive" value ={getPositive()} />
+*/}
        </tbody>
       </table>
+      
     </div>
   )
 }

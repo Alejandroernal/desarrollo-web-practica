@@ -34,6 +34,7 @@ const Button = ({ handleClick, text }) => (
 
       <h1>statistics</h1>
       <Statistics votes={votes}></Statistics>
+      
       {/* (1.7)
       <p>good {good}</p>
       <p>neutral {neutral}</p>
