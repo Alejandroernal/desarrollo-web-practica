@@ -4,18 +4,25 @@ const Header = (props) => {
   )
 }
 
-const Part = (props) => {
+const Part = ({name, exercises}) => {
   return (
-    <p>{props.parts.name} {props.parts.exercises}</p>
+    <p>{name} {exercises}</p>
   )
 }
 
-const Content = (props) => {
+const Content = ({parts}) => {
   return (
     <div>
+    {parts.map((part)=><Part name={part.name} exercises={part.exercises}></Part>)}
+
+
+      {/*
+      Lo que recorre es cada objeto las partes seleccionadas, en vez de limitar el objeto.
+
       <Part parts={props.parts[0]} />
       <Part parts={props.parts[1]} />
       <Part parts={props.parts[2]} />
+      */}
     </div>
   )
 }
