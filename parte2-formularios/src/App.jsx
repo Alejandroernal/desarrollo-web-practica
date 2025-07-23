@@ -1,5 +1,43 @@
 import { useState } from 'react'
 
+const Filter = ({ filter, handleFilterChange, handleBrowse }) => (
+  <form onSubmit={handleBrowse}>
+    Filter shown with <input value={filter} onChange={handleFilterChange} />
+    <button type="submit">Browse</button>
+  </form>
+)
+
+const PersonForm = ({
+  newName,
+  newTel,
+  handleInputChange,
+  handleTelChange,
+  handleSubmit,
+}) => (
+  <form onSubmit={handleSubmit}>
+    <div>
+      name: <input value={newName} onChange={handleInputChange} />
+    </div>
+    <div>
+      number: <input value={newTel} onChange={handleTelChange} />
+    </div>
+    <div>
+      <button type="submit">add</button>
+    </div>
+  </form>
+)
+
+const Numbers = ({ persons }) => (
+  <ul>
+    {persons.map((person, idx) => (
+      <li key={idx}>
+        {person.name} {person.tel}
+      </li>
+    ))}
+  </ul>
+)
+
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', tel: '040-123456' },
@@ -82,31 +120,23 @@ const App = () => {
 
 
   return (
-    <div>
-      <form onSubmit={handleBrowse}>
-        <h2>Phonebook</h2>
-        Filter shown with <input value={filter} onChange={handleFilterChange} />
-       <div><button type="submit">Browse</button></div>
-      </form>
-
-      <form onSubmit={handleSubmit}>
-        <div>
-          <h2>Add a new</h2>
-          name: <input value={newName} onChange={handleInputChange} />
-        </div>
-        <div>
-          number: <input value={newTel} onChange={handleTelChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <ul>
-        {persons.map((person, idx) => (
-          <li key={idx}>{person.name} {person.tel}</li>
-        ))}
-      </ul>
+     <div>
+      <h2>Phonebook</h2>
+      <Filter
+        filter={filter}
+        handleFilterChange={handleFilterChange}
+        handleBrowse={handleBrowse}
+      />
+      <h3>Add a new</h3>
+      <PersonForm
+        newName={newName}
+        newTel={newTel}
+        handleInputChange={handleInputChange}
+        handleTelChange={handleTelChange}
+        handleSubmit={handleSubmit}
+      />
+      <h3>Numbers</h3>
+      <Numbers persons={persons} />
     </div>
   )
 }
