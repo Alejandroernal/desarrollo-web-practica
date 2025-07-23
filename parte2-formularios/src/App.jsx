@@ -5,17 +5,26 @@ const App = () => {
     { name: 'Arto Hellas' }
   ]) 
   const [newName, setNewName] = useState('')
+  const [warning, setWarning] = useState('')
 
   const handleInputChange = (event) => {
     setNewName(event.target.value)
+    setWarning('') // Limpia la advertencia al escribir
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    // Evita agregar nombres vacíos o repetidos
-    if (newName.trim() === '' || persons.some(person => person.name === newName)) return
+    if (newName.trim() === ''){
+      alert('Name cannot be empty')
+      return
+    }
+    if (persons.some(person => person.name === newName)) {
+      alert(` ${newName} is already added to phonebook`)
+      return
+    }
     setPersons(persons.concat({ name: newName }))
     setNewName('')
+    setWarning('')
   }
 
   return (
