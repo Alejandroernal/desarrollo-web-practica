@@ -31,11 +31,11 @@ const PersonForm = ({
   </form>
 )
 
-const Numbers = ({ persons }) => (
+const Numbers = ({ persons, handleDelete }) => (
   <ul>
     {persons.map((person, idx) => (
       <li key={idx}>
-        {person.name} {person.number}
+        {person.name} {person.number} <button onClick={() => handleDelete(person.id)}>remove</button>
       </li>
     ))}
   </ul>
@@ -131,6 +131,14 @@ useEffect(() => {
     })
 }
 
+const handleDelete = (id) => {
+  const person = persons.find(p => p.id === id)
+  if (window.confirm(`¿Seguro que quieres eliminar a ${person.name}?`)) {
+    personService.remove(id).then(() => {
+      setPersons(persons.filter(person => person.id !== id))
+    })
+  }
+}
 
   return (
      <div>
@@ -149,7 +157,7 @@ useEffect(() => {
         handleSubmit={handleSubmit}
       />
       <h3>Numbers</h3>
-      <Numbers persons={persons} />
+      <Numbers persons={persons} handleDelete={handleDelete} />
     </div>
   )
 }
