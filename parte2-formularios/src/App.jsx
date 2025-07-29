@@ -110,11 +110,28 @@ useEffect(() => {
       alert('Name or Number cannot be empty')
       return
     }
-    if (persons.some(person => person.name === newName)) {
+    if (persons.some(person => person.name === newName && person.number === newNumber)) {
       alert(` ${newName} is already added to phonebook`)
       return
     }
 
+    if (persons.some(person => person.name === newName && person.number != newNumber)) {
+     const personToUpdate = persons.find(person => person.name === newName)
+  if (window.confirm(`"${newName}" ya existe. ¿Deseas reemplazar el número antiguo por el nuevo?`)) {
+    const updatedPerson = { ...personToUpdate, number: newNumber }
+    personService
+      .update(personToUpdate.id, updatedPerson)
+      .then(returnedPerson => {
+        setPersons(persons.map(person =>
+          person.id !== personToUpdate.id ? person : returnedPerson
+        ))
+        setNewName('')
+        setNewNumber('')
+        setWarning('')
+      })
+  }
+  return
+    }
     
 
     if (persons.some(person => person.number === newNumber)) {
