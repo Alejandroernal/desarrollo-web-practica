@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import personService from './Service/service'
 
 
 
@@ -12,9 +13,9 @@ const Filter = ({ filter, handleFilterChange, handleBrowse }) => (
 
 const PersonForm = ({
   newName,
-  newTel,
+  newNumber,
   handleInputChange,
-  handleTelChange,
+  handleNumberChange,
   handleSubmit,
 }) => (
   <form onSubmit={handleSubmit}>
@@ -22,7 +23,7 @@ const PersonForm = ({
       name: <input value={newName} onChange={handleInputChange} />
     </div>
     <div>
-      number: <input value={newTel} onChange={handleTelChange} />
+      number: <input value={newNumber} onChange={handleNumberChange} />
     </div>
     <div>
       <button type="submit">add</button>
@@ -43,11 +44,11 @@ const Numbers = ({ persons }) => (
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', tel: '040-123456' },
+    { name: 'Arto Hellas', number: '040-123456' },
   ]) 
   const [newName, setNewName] = useState('')
   const [warning, setWarning] = useState('')
-  const [newTel, setNewTel] = useState('')
+  const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
 
   const handleInputChange = (event) => {
@@ -60,16 +61,16 @@ const App = () => {
     setWarning('') // Limpia la advertencia al escribir
   }
 
-  const handleTelChange = (event) => {
-    setNewTel(event.target.value)
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
     setWarning('') // Limpia la advertencia al escribir
   }
 
   const handleBrowse = (event) => {
     event.preventDefault()
-    if (persons.some(person => person.name === filter || person.tel === filter)) {
-      const foundPerson = persons.find(person => person.name === filter || person.tel === filter);
-      alert(`Se encontraron coincidencias es: ${foundPerson.name} ${foundPerson.tel}`)
+    if (persons.some(person => person.name === filter || person.number === filter)) {
+      const foundPerson = persons.find(person => person.name === filter || person.number === filter);
+      alert(`Se encontraron coincidencias es: ${foundPerson.name} ${foundPerson.number}`)
     } else {
 
       alert('No se encontraron coincidencias')
@@ -105,8 +106,8 @@ useEffect(() => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    if (newName.trim() === '' || newTel.trim() === '') {
-      alert('Name or Tel cannot be empty')
+    if (newName.trim() === '' || newNumber.trim() === '') {
+      alert('Name or Number cannot be empty')
       return
     }
     if (persons.some(person => person.name === newName)) {
@@ -114,19 +115,20 @@ useEffect(() => {
       return
     }
 
-    if (persons.some(person => person.tel === newTel)) {
-      alert(` ${newTel} is already added to phonebook`)
+    
+
+    if (persons.some(person => person.number === newNumber)) {
+      alert(` ${newNumber} is already added to phonebook`)
       return
     }
 
-    
-
-    setPersons(persons.concat({ name: newName , tel: newTel }))
+    const newPerson = {name: newName, number: newNumber};
+    personService.create(newPerson).then(returnedPerson=>{
+    setPersons(persons.concat(returnedPerson))
     setNewName('')
-    setNewTel('')
+    setNewNumber('')
     setWarning('')
-
-
+    })
 }
 
 
@@ -141,9 +143,9 @@ useEffect(() => {
       <h3>Add a new</h3>
       <PersonForm
         newName={newName}
-        newTel={newTel}
+        newNumber={newNumber}
         handleInputChange={handleInputChange}
-        handleTelChange={handleTelChange}
+        handleNumberChange={handleNumberChange}
         handleSubmit={handleSubmit}
       />
       <h3>Numbers</h3>
