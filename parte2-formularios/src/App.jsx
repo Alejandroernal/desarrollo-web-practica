@@ -1,4 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
+
 
 const Filter = ({ filter, handleFilterChange, handleBrowse }) => (
   <form onSubmit={handleBrowse}>
@@ -31,7 +34,7 @@ const Numbers = ({ persons }) => (
   <ul>
     {persons.map((person, idx) => (
       <li key={idx}>
-        {person.name} {person.tel}
+        {person.name} {person.number}
       </li>
     ))}
   </ul>
@@ -74,6 +77,14 @@ const App = () => {
       return
     }
 }
+
+useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])
 
 /*
   const handleBrowse = (event) => {
