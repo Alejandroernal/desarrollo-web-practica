@@ -3,16 +3,17 @@ import axios from 'axios'
 import personService from './Service/service'
 
 
-const Notification = ({ message }) => {
+const Notification = ({ message, type }) => {
   if (!message) return null
+  const color = type === 'error' ? 'red' : 'green'
   return (
     <div style={{
-      color: 'green',
-      background: '#e0e0e0',
-      border: '2px solid green',
-      padding: '10px',
-      marginBottom: '15px'
-    }}>
+     color,
+     background: '#e0e0e0',
+     border: `2px solid ${color}`,
+     padding: '10px',
+    marginBottom: '15px'
+  }}>
       {message}
     </div>
   )
@@ -65,7 +66,7 @@ const App = () => {
   const [warning, setWarning] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState({ message: '', type: '' })
 
   const handleInputChange = (event) => {
     setNewName(event.target.value)
@@ -123,11 +124,13 @@ useEffect(() => {
   const handleSubmit = (event) => {
     event.preventDefault()
     if (newName.trim() === '' || newNumber.trim() === '') {
-      alert('Name or Number cannot be empty')
+      setNotification({ message: 'Name or Number cannot be empty', type: 'error' })
+      setTimeout(() => setNotification({ message: '', type: '' }), 3000)
       return
     }
     if (persons.some(person => person.name === newName && person.number === newNumber)) {
-      alert(` ${newName} is already added to phonebook`)
+      setNotification({ message: `${newName} is already added to phonebook`, type: 'error' })
+      setTimeout(() => setNotification({ message: '', type: '' }), 3000)
       return
     }
 
@@ -141,46 +144,62 @@ useEffect(() => {
         setPersons(persons.map(person =>
           person.id !== personToUpdate.id ? person : returnedPerson
         ))
-        setNotification(`Updated ${returnedPerson.name}`)
-        setTimeout(() => setNotification(''), 3000)
+        setNotification({ message: `Updated ${returnedPerson.name}`, type: 'success' })
+        setTimeout(() => setNotification({ message: '', type: '' }), 3000)
         setNewName('')
         setNewNumber('')
         setWarning('')
       })
+      .catch(error => {
+            setNotification({ message: `Information of ${personToUpdate.name} has already been removed from server`, type: 'error' })
+            setTimeout(() => setNotification({ message: '', type: '' }), 4000)
+            setPersons(persons.filter(p => p.id !== personToUpdate.id))
+          })
   }
   return
     }
     
 
     if (persons.some(person => person.number === newNumber)) {
-      alert(` ${newNumber} is already added to phonebook`)
+       setNotification({ message: `${newNumber} is already added to phonebook`, type: 'error' })
+      setTimeout(() => setNotification({ message: '', type: '' }), 3000)
       return
     }
 
     const newPerson = {name: newName, number: newNumber};
     personService.create(newPerson).then(returnedPerson=>{
     setPersons(persons.concat(returnedPerson))
-    setNotification(`Added ${returnedPerson.name}`)
-    setTimeout(() => setNotification(''), 3000)
+    setNotification({ message: `Added ${returnedPerson.name}`, type: 'success' })
+    setTimeout(() => setNotification({ message: '', type: '' }), 3000)
     setNewName('')
     setNewNumber('')
     setWarning('')
     })
+    
 }
 
 const handleDelete = (id) => {
   const person = persons.find(p => p.id === id)
   if (window.confirm(`¿Seguro que quieres eliminar a ${person.name}?`)) {
-    personService.remove(id).then(() => {
-      setPersons(persons.filter(person => person.id !== id))
-    })
+    personService
+      .remove(id)
+      .then(() => {
+        setPersons(persons.filter(person => person.id !== id))
+        setNotification({ message: `Deleted ${person.name}`, type: 'success' })
+        setTimeout(() => setNotification({ message: '', type: '' }), 3000)
+      })
+      .catch(error => {
+        setNotification({ message: `Information of ${person.name} has already been removed from server`, type: 'error' })
+        setTimeout(() => setNotification({ message: '', type: '' }), 4000)
+        setPersons(persons.filter(p => p.id !== id))
+      })
   }
 }
 
   return (
      <div>
       <h2>Phonebook</h2>
-      <h2><Notification message={notification}></Notification></h2>
+      <h2><Notification message={notification.message} type={notification.type} /></h2>
       <Filter
         filter={filter}
         handleFilterChange={handleFilterChange}
