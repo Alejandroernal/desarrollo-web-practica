@@ -3,6 +3,21 @@ import axios from 'axios'
 import personService from './Service/service'
 
 
+const Notification = ({ message }) => {
+  if (!message) return null
+  return (
+    <div style={{
+      color: 'green',
+      background: '#e0e0e0',
+      border: '2px solid green',
+      padding: '10px',
+      marginBottom: '15px'
+    }}>
+      {message}
+    </div>
+  )
+}
+
 
 const Filter = ({ filter, handleFilterChange, handleBrowse }) => (
   <form onSubmit={handleBrowse}>
@@ -50,6 +65,7 @@ const App = () => {
   const [warning, setWarning] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [notification, setNotification] = useState('')
 
   const handleInputChange = (event) => {
     setNewName(event.target.value)
@@ -125,6 +141,8 @@ useEffect(() => {
         setPersons(persons.map(person =>
           person.id !== personToUpdate.id ? person : returnedPerson
         ))
+        setNotification(`Updated ${returnedPerson.name}`)
+        setTimeout(() => setNotification(''), 3000)
         setNewName('')
         setNewNumber('')
         setWarning('')
@@ -142,6 +160,8 @@ useEffect(() => {
     const newPerson = {name: newName, number: newNumber};
     personService.create(newPerson).then(returnedPerson=>{
     setPersons(persons.concat(returnedPerson))
+    setNotification(`Added ${returnedPerson.name}`)
+    setTimeout(() => setNotification(''), 3000)
     setNewName('')
     setNewNumber('')
     setWarning('')
@@ -160,6 +180,7 @@ const handleDelete = (id) => {
   return (
      <div>
       <h2>Phonebook</h2>
+      <h2><Notification message={notification}></Notification></h2>
       <Filter
         filter={filter}
         handleFilterChange={handleFilterChange}
