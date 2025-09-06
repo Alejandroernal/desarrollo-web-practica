@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import personService from './Service/service'
+import '/src/index.css'
+
+
+import { Button, TextField, Typography, Container } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+
+
 
 
 const Notification = ({ message, type }) => {
@@ -23,7 +33,7 @@ const Notification = ({ message, type }) => {
 const Filter = ({ filter, handleFilterChange, handleBrowse }) => (
   <form onSubmit={handleBrowse}>
     Filter shown with <input value={filter} onChange={handleFilterChange} />
-    <button type="submit">Browse</button>
+    <Button type="submit" variant="contained" startIcon={<TravelExploreIcon />}>Browse</Button>
   </form>
 )
 
@@ -42,7 +52,7 @@ const PersonForm = ({
       number: <input value={newNumber} onChange={handleNumberChange} />
     </div>
     <div>
-      <button type="submit">add</button>
+      <Button type="submit" variant="contained" startIcon={<AddIcon />}>add</Button>
     </div>
   </form>
 )
@@ -51,7 +61,7 @@ const Numbers = ({ persons, handleDelete }) => (
   <ul>
     {persons.map((person, idx) => (
       <li key={idx}>
-        {person.name} {person.number} <button onClick={() => handleDelete(person.id)}>remove</button>
+        {person.name} {person.number} <Button variant="contained" startIcon={<DeleteIcon />} onClick={() => handleDelete(person.id)}>remove</Button>
       </li>
     ))}
   </ul>
@@ -184,10 +194,10 @@ const handleDelete = (id) => {
     personService
       .remove(id)
       .then(() => {
-        setPersons(persons.filter(person => person.id !== id))
-        setNotification({ message: `Deleted ${person.name}`, type: 'success' })
-        setTimeout(() => setNotification({ message: '', type: '' }), 3000)
-      })
+  setPersons(persons.filter(person => person.id !== id))
+  setNotification({ message: `Deleted ${person.name}`, type: 'error' }) // Ahora será rojo
+  setTimeout(() => setNotification({ message: '', type: '' }), 3000)
+})
       .catch(error => {
         setNotification({ message: `Information of ${person.name} has already been removed from server`, type: 'error' })
         setTimeout(() => setNotification({ message: '', type: '' }), 4000)
@@ -199,7 +209,7 @@ const handleDelete = (id) => {
   return (
      <div>
       <h2>Phonebook</h2>
-      <h2><Notification message={notification.message} type={notification.type} /></h2>
+      <Notification message={notification.message} type={notification.type} />
       <Filter
         filter={filter}
         handleFilterChange={handleFilterChange}
