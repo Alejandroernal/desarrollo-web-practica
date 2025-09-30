@@ -77,3 +77,42 @@ button:hover {
   color: #a12020;
   border: 2px solid #a12020;
 }
+
+@media (max-width: 600px) {
+  body {
+    font-size: 1em;
+    padding: 0.5em;
+  }
+
+  h1, h2, h3 {
+    font-size: 1.2em;
+    margin-top: 1em;
+    margin-bottom: 0.7em;
+  }
+
+  input, button {
+    font-size: 1em;
+    width: 100%;
+    margin-bottom: 0.7em;
+    margin-right: 0;
+  }
+
+  form {
+    margin-bottom: 1em;
+  }
+
+  ul {
+    padding: 0;
+  }
+
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.7em 0.5em;
+  }
+
+  .Notification {
+    font-size: 1em;
+    padding: 0.7em;
+  }
+}
