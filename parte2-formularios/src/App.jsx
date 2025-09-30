@@ -17,13 +17,7 @@ const Notification = ({ message, type }) => {
   if (!message) return null
   const color = type === 'error' ? 'red' : 'green'
   return (
-    <div style={{
-     color,
-     background: '#e0e0e0',
-     border: `2px solid ${color}`,
-     padding: '10px',
-    marginBottom: '15px'
-  }}>
+    <div className={`Notification Notification-${type}`}>
       {message}
     </div>
   )
