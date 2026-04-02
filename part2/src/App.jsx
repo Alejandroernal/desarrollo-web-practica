@@ -1,45 +1,55 @@
 import { useState } from 'react'
 
-const App = () => {
-  const anecdotes = [
-    'If it hurts, do it more often.',
-    'Adding manpower to a late software project makes it later!',
-    'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-    'Premature optimization is the root of all evil.',
-    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
-    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
-    'The only way to go fast, is to go well.'
-  ]
+{/*
+  Ejercicio 1 – Contador simple (25 puntos)
+Crea una app con un componente llamado Contador que:
 
-  const [selected, setSelected] = useState(0)
+Muestre un número inicial (0)
 
-  const [votes, setVotes]= useState(Array(anecdotes.length).fill(0))
-  const handleVote = () => {
-    const newVotes = [...votes]
-    newVotes[selected] += 1
-    setVotes(newVotes)
-  }
+Tenga tres botones: “+1”, “-1” y “Reset”
 
-    const maxvotes = () => {
-      return votes.indexOf(Math.max(...votes))
-    }
-
-    const masVotada = maxvotes()
+Cada botón actualiza el valor del contador en pantalla
   
+--------------------------------------------------------------------------------------
+
+Ejercicio 2 – Lista de mensajes (25 puntos)
+Crea un componente Mensajes que reciba por props un array de strings y los muestre como una lista (<ul>).
+
+Ejemplo de uso:
+
+js
+Copiar
+Editar
+const mensajes = ['Hola', '¿Cómo estás?', 'Adiós'];
+<Mensajes mensajes={mensajes} />
+Extra (5 puntos): Agrega un botón al final de cada ítem para eliminar ese mensaje de la lista.
+
+----------------------------------------------------------------------------------
+
+Ejercicio 3 – Login condicional (25 puntos)
+Crea un componente Login que:
+
+Tenga un estado logueado (booleano)
+
+Muestre un botón que dice “Iniciar sesión” o “Cerrar sesión” según el estado
+
+Muestre un texto diferente:
+
+Si está logueado: “Bienvenido”
+
+Si no está logueado: “Por favor, inicia sesión”
+*/}
+
+const App = () => {
+ 
+    const [contador, setContador] = useState(0)
+
   return (
     <div>
-
-      <p>{anecdotes[selected]}</p>
-      <p>Votes: {votes[selected]}</p>
-      <button onClick={handleVote}>Vote</button>
-      <button onClick={() => setSelected((selected + 1) % anecdotes.length)}>Next Anecdote*1</button>
-      <button onClick={() => setSelected(selected - 1)}>Back Anecdote</button> 
-
-      <h2>Anecdote with most votes</h2>
-
-      <p>{anecdotes[masVotada]}</p>
-      <p>Votes: {votes[masVotada]}</p>
+      <p>Numero: {contador}</p>
+      <button onClick={() => setContador(contador + 1)}>Menos</button>
+      <button onClick={()=> setContador(contador - 1)}>Rest</button>
+      <button onClick={() => setContador(0)}>Cero</button>
     </div>
   )
 }
